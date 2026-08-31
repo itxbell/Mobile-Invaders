@@ -1,0 +1,39 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<title>Space Invaders x Aquatic Pests</title>
+    <link rel="stylesheet" type="text/css" href="src/style.css">
+    <script src="assets/libs/phaser.js"></script>
+    <script src="src/Boot.js"></script>
+    <script src="src/Preloader.js"></script>
+    <script src="src/StartMenu.js"></script>
+    <script src="src/Game.js"></script>
+    <script src="src/GameLevel2.js"></script>
+    <script src="src/GameLevel3.js"></script>
+    <script src="src/FactCards.js"></script>
+    <script src="src/EndScene.js"></script>
+
+</head>
+<body>
+    <div id="gameContainer"></div>
+    <script type="text/javascript">
+        window.onload = function() {
+            var game = new Phaser.Game(540, 960, Phaser.AUTO, 'gameContainer');
+            game.state.add('Boot', SpaceInvaders.Boot);
+            game.state.add('Preloader', SpaceInvaders.Preloader);
+            game.state.add('StartMenu', SpaceInvaders.StartMenu);
+            game.state.add('Game', SpaceInvaders.Game);
+            game.state.add('GameLevel2', SpaceInvaders.GameLevel2);
+            game.state.add('GameLevel3', SpaceInvaders.GameLevel3);
+            game.state.add('FactCard1', SpaceInvaders.FactCard1);
+            game.state.add('FactCard2', SpaceInvaders.FactCard2);
+            game.state.add('FactCard3', SpaceInvaders.FactCard3);
+            game.state.add('EndScene', SpaceInvaders.EndScene);
+            game.state.start('Boot');
+            
+        }
+    </script>
+</body>
+</html>
