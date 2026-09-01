@@ -23,6 +23,11 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: replace ship assets | [[15_Session_2026-09-01_Replace_Ship_Assets]] |
 | Running the game in web browser | [[16_Running_in_Web_Browser]] |
 | Session: ship asset investigation & restore | [[17_Session_2026-09-01_Ship_Asset_Investigation]] |
+| Session: scale down ship | [[18_Session_2026-09-01_Scale_Down_Ship]] |
+| Session: custom ship asset integration | [[19_Session_2026-09-01_Custom_Ship_Asset_Integration]] |
+| Session: fix background black space | [[20_Session_2026-09-01_Fix_Background_Black_Space]] |
+| Session: remove dock sprite | [[21_Session_2026-09-01_Remove_Dock_Sprite]] |
+| Session: comprehensive game adjustments | [[22_Session_2026-09-01_Comprehensive_Game_Adjustments]] |
 | Session: scale down ship asset | [[18_Session_2026-09-01_Scale_Down_Ship]] |
 | Session: custom ship asset integration | [[19_Session_2026-09-01_Custom_Ship_Asset_Integration]] |
 | Session: fix background black space & scaling | [[20_Session_2026-09-01_Fix_Background_Black_Space]] |
