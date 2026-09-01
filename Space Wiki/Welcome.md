@@ -22,6 +22,7 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: HUD & state text fit | [[14_Session_2026-08-13_HUD_StateText_Fit]] |
 | Session: replace ship assets | [[15_Session_2026-09-01_Replace_Ship_Assets]] |
 | Running the game in web browser | [[16_Running_in_Web_Browser]] |
+| Session: ship asset investigation & restore | [[17_Session_2026-09-01_Ship_Asset_Investigation]] |
 
 ## Project Status
 
