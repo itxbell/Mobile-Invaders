@@ -25,10 +25,11 @@ class GameScene extends Phaser.Scene{
     super("GameScene")
   }
   preload(){
-    this.load.image("bg","/assets/test_image.jpg")
-    //this.load.image("bullet", "assets/bullet.png");
-    //this.load.image("player", "assets/player.png");
-    //this.load.image("enemy", "assets/enemy.png");
+    const assetsPath = 'assets/images';
+    this.load.image("bg", `${assetsPath}/TitleBG1.jpg`);
+    this.load.image("player", `${assetsPath}/ship.png`);
+    this.load.image("enemy", `${assetsPath}/invaderblaster.png`);
+    this.load.image("bullet", `${assetsPath}/invaderblaster.png`);
 
   } // Preload the assets
   create() {

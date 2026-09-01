@@ -15,6 +15,7 @@ SpaceInvaders.Preloader.prototype = {
        	this.load.image('titlescreen', 'assets/images/TitleBG1.jpg');
 		this.load.audio('titleMusic', 'assets/audio/TitleMusic.mp3');
         this.load.image('ship', 'assets/images/ship.png');
+        this.load.image('bullet', 'assets/images/cleanBlaster.png');
         this.load.image('invaderBullet', 'assets/images/invaderblaster.png');
         this.load.bitmapFont('eightbitwonder', 'assets/fonts/eightbitwonder.png', 'assets/fonts/eightbitwonder.fnt');       
         this.load.atlasJSONArray('invaders', 'assets/images/spritesheets/invaders.png', 'assets/images/spritesheets/invaders.json');
