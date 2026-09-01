@@ -20,6 +20,8 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: emulator launch & APK check | [[12_Session_2026-08-13_Emulator_Launch]] |
 | Font resolution & mobile fit | [[13_Font_Resolution_2026-08-13]] |
 | Session: HUD & state text fit | [[14_Session_2026-08-13_HUD_StateText_Fit]] |
+| Session: replace ship assets | [[15_Session_2026-09-01_Replace_Ship_Assets]] |
+| Running the game in web browser | [[16_Running_in_Web_Browser]] |
 
 ## Project Status
 
