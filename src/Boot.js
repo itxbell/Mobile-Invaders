@@ -15,7 +15,7 @@ SpaceInvaders.Boot.prototype = {
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
 
-        this.stage.backgroundColor = '#171642';
+        this.stage.backgroundColor = '#03001d';
         
         this.state.start('Preloader');
     }
