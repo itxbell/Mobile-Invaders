@@ -203,8 +203,8 @@ SpaceInvaders.Game.prototype = {
 		this.weaponText.position.x = this.world.centerX - this.weaponText.textWidth / 2;
 
 		// Pause button - top right corner
-		this.pauseButton = this.add.bitmapText(0, 8, 'eightbitwonder', '||', 20);
-		this.pauseButton.position.x = this.world.width - 40;
+		this.pauseButton = this.add.bitmapText(0, 8, 'eightbitwonder', 'I I', 22);
+		this.pauseButton.position.x = this.world.width - 50;
 		this.pauseButton.inputEnabled = true;
 		this.pauseButton.events.onInputDown.add(this.togglePause, this);
 	},
@@ -337,11 +337,12 @@ SpaceInvaders.Game.prototype = {
 
 	togglePause: function () {
 		if (this.gameover) return;
-		this.game.paused = !this.game.paused;
-		if (this.game.paused) {
-			this.showPauseOverlay();
-		} else {
+		if (this.isPaused) {
 			this.hidePauseOverlay();
+			this.isPaused = false;
+		} else {
+			this.isPaused = true;
+			this.showPauseOverlay();
 		}
 	},
 
@@ -351,7 +352,6 @@ SpaceInvaders.Game.prototype = {
 		this.pauseOverlay.beginFill(0x000000, 0.6);
 		this.pauseOverlay.drawRect(0, 0, this.world.width, this.world.height);
 		this.pauseOverlay.endFill();
-		this.pauseOverlay.fixedToCamera = true;
 
 		// PAUSED text
 		this.pauseText = this.add.bitmapText(0, 0, 'eightbitwonder', 'PAUSED', 28);
@@ -395,8 +395,8 @@ SpaceInvaders.Game.prototype = {
 	},
 
 	restartGame: function () {
-		if (this.game.paused) {
-			this.game.paused = false;
+		if (this.isPaused) {
+			this.isPaused = false;
 			this.hidePauseOverlay();
 		}
 		if (this.music) { this.music.stop(); }
@@ -423,7 +423,7 @@ SpaceInvaders.Game.prototype = {
 	},
 
 	update: function () {
-		if (this.game.paused || this.gameover) return;
+		if (this.isPaused || this.gameover) return;
 
 		//Ship handler
 		this.ship.body.velocity.x = 0;

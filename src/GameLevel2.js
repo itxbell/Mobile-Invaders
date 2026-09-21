@@ -70,8 +70,8 @@ SpaceInvaders.GameLevel2.prototype.invadersCount = function(){
 };
 
 SpaceInvaders.GameLevel2.prototype.restartGame = function(){
-    if(this.game.paused){
-        this.game.paused = false;
+    if(this.isPaused){
+        this.isPaused = false;
         this.hidePauseOverlay();
     }
     if(this.music){ this.music.stop(); } // stop Level 2 music
