@@ -11,10 +11,14 @@
             "id": "1cb058e024421d5e",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {},
-              "icon": "lucide-git-fork",
-              "title": "Graph view"
+              "type": "markdown",
+              "state": {
+                "file": "23_Pause_Resume_Guide.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "23_Pause_Resume_Guide"
             }
           }
         ]

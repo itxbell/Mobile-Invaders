@@ -29,6 +29,7 @@ SpaceInvaders.GameLevel3.prototype.init = function(scoreFromLevel2){
     this.score = scoreFromLevel2 || 0;
     this.currentWeapon = 'dry' // continue score
     this.gameover = false;
+    this.isPaused = false;
     this.bulletTime = 0;
     this.invaderBulletTime = 0;
     this.livingEnemies = [];
@@ -67,6 +68,10 @@ SpaceInvaders.GameLevel3.prototype.invadersCount = function(){
 };
 
 SpaceInvaders.GameLevel3.prototype.restartGame = function(){
+    if(this.game.paused){
+        this.game.paused = false;
+        this.hidePauseOverlay();
+    }
     if(this.music){ this.music.stop(); } // stop Level 3 music
     if(this.shipDeathSfx && this.shipDeathSfx.isPlaying){ 
         this.shipDeathSfx.stop();          // 🔊 stop death sound effect

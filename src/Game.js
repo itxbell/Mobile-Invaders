@@ -18,6 +18,11 @@ SpaceInvaders.Game = function (game) {
 	this.livingEnemies = [];
 	this.music = null;
 	this.currentWeapon = 'check';
+	this.isPaused = false;
+	this.pauseButton = null;
+	this.pauseOverlay = null;
+	this.pauseText = null;
+	this.resumeButton = null;
 
 };
 
@@ -196,6 +201,12 @@ SpaceInvaders.Game.prototype = {
 		this.weaponText.align = 'center';
 		this.weaponText.updateTransform();
 		this.weaponText.position.x = this.world.centerX - this.weaponText.textWidth / 2;
+
+		// Pause button - top right corner
+		this.pauseButton = this.add.bitmapText(0, 8, 'eightbitwonder', '||', 20);
+		this.pauseButton.position.x = this.world.width - 40;
+		this.pauseButton.inputEnabled = true;
+		this.pauseButton.events.onInputDown.add(this.togglePause, this);
 	},
 
 	flyDown: function () {
@@ -324,7 +335,70 @@ SpaceInvaders.Game.prototype = {
 		this.weaponText.position.x = this.world.centerX - this.weaponText.textWidth / 2;
 	},
 
+	togglePause: function () {
+		if (this.gameover) return;
+		this.game.paused = !this.game.paused;
+		if (this.game.paused) {
+			this.showPauseOverlay();
+		} else {
+			this.hidePauseOverlay();
+		}
+	},
+
+	showPauseOverlay: function () {
+		// Dimmed background
+		this.pauseOverlay = this.add.graphics();
+		this.pauseOverlay.beginFill(0x000000, 0.6);
+		this.pauseOverlay.drawRect(0, 0, this.world.width, this.world.height);
+		this.pauseOverlay.endFill();
+		this.pauseOverlay.fixedToCamera = true;
+
+		// PAUSED text
+		this.pauseText = this.add.bitmapText(0, 0, 'eightbitwonder', 'PAUSED', 28);
+		this.pauseText.align = 'center';
+		this.pauseText.updateTransform();
+		this.pauseText.position.x = this.world.centerX - this.pauseText.textWidth / 2;
+		this.pauseText.position.y = this.world.centerY - 50;
+
+		// RESUME button
+		this.resumeButton = this.add.bitmapText(0, 0, 'eightbitwonder', 'RESUME', 22);
+		this.resumeButton.align = 'center';
+		this.resumeButton.updateTransform();
+		this.resumeButton.position.x = this.world.centerX - this.resumeButton.textWidth / 2;
+		this.resumeButton.position.y = this.world.centerY + 10;
+		this.resumeButton.inputEnabled = true;
+		this.resumeButton.events.onInputDown.add(this.togglePause, this);
+
+		// Pause music
+		if (this.music && this.music.isPlaying) {
+			this.music.pause();
+		}
+	},
+
+	hidePauseOverlay: function () {
+		if (this.pauseOverlay) {
+			this.pauseOverlay.destroy();
+			this.pauseOverlay = null;
+		}
+		if (this.pauseText) {
+			this.pauseText.destroy();
+			this.pauseText = null;
+		}
+		if (this.resumeButton) {
+			this.resumeButton.destroy();
+			this.resumeButton = null;
+		}
+
+		if (this.music) {
+			this.music.resume();
+		}
+	},
+
 	restartGame: function () {
+		if (this.game.paused) {
+			this.game.paused = false;
+			this.hidePauseOverlay();
+		}
 		if (this.music) { this.music.stop(); }
 		if (this.shipDeathSfx && this.shipDeathSfx.isPlaying) {
 			this.shipDeathSfx.stop();
@@ -349,6 +423,8 @@ SpaceInvaders.Game.prototype = {
 	},
 
 	update: function () {
+		if (this.game.paused || this.gameover) return;
+
 		//Ship handler
 		this.ship.body.velocity.x = 0;
 		this.ship.body.velocity.y = 0;
