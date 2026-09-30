@@ -45,6 +45,9 @@ Skipped — went directly to Capacitor native (Phase 6) since PWA is not needed.
 
 - [x] Fix `GameLevel2.js` missing closing brace in `invadersCount()`
 - [x] Fix `GameLevel3.js` same issue
+- [x] Implement pause/resume button (all 3 levels) — see [[23_Pause_Resume_Guide]]
+- [x] Fix EndScene text overflow (BitmapText wordWrap inert in Phaser 2)
+- [x] Fix pause freeze: tweens + physics (`body.moves`) + flap (`currentAnim.paused`) — see [[26_Session_2026-09-30_Pause_Freeze_Fix]]
 - [ ] Compress/optimize images for mobile
 - [ ] Test audio on iOS (MP3 compat)
 - [ ] Test all 3 levels + fact cards on mobile
