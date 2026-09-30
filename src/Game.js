@@ -23,6 +23,7 @@ SpaceInvaders.Game = function (game) {
 	this.pauseOverlay = null;
 	this.pauseText = null;
 	this.resumeButton = null;
+	this.invadersTween = null;
 
 };
 
@@ -30,10 +31,12 @@ SpaceInvaders.Game.prototype.init = function (score) {
 	this.score = score || 0;
 	this.currentWeapon = 'check';
 	this.gameover = false;
+	this.isPaused = false;
 	this.bulletTime = 0;
 	this.invaderBulletTime = 0;
 	this.livingEnemies = [];
 	this.totalInvaders = this.totalRow * this.totalInvadersRow;
+	this.invadersTween = null;
 };
 
 SpaceInvaders.Game.prototype = {
@@ -95,9 +98,9 @@ SpaceInvaders.Game.prototype = {
 			}
 		}
 		//All this does is basically start the invaders moving. Notice we're moving the Group they belong to, rather than the invaders directly.
-		var tween = this.add.tween(this.invaders).to({ x: this.world.width - 100 }, 3000, Phaser.Easing.Linear.None, true, 0, 1000, true);
+		this.invadersTween = this.add.tween(this.invaders).to({ x: this.world.width - 100 }, 3000, Phaser.Easing.Linear.None, true, 0, 1000, true);
 		//When the tween loops it calls > flyDown
-		tween.onLoop.add(this.flyDown, this);
+		this.invadersTween.onLoop.add(this.flyDown, this);
 	},
 
 
@@ -347,6 +350,9 @@ SpaceInvaders.Game.prototype = {
 	},
 
 	showPauseOverlay: function () {
+		// Freeze all motion first so assets hold pixel-identical positions
+		this.setFreeze(true);
+
 		// Dimmed background
 		this.pauseOverlay = this.add.graphics();
 		this.pauseOverlay.beginFill(0x000000, 0.6);
@@ -389,8 +395,46 @@ SpaceInvaders.Game.prototype = {
 			this.resumeButton = null;
 		}
 
+		// Unfreeze tweens, physics bodies and flap animations
+		this.setFreeze(false);
+
 		if (this.music) {
 			this.music.resume();
+		}
+	},
+
+	setFreeze: function (freeze) {
+		// 1. Tweens - invader group slide + flyDown loop
+		if (this.game && this.game.tweens) {
+			if (freeze) {
+				this.game.tweens.pauseAll();
+			} else {
+				this.game.tweens.resumeAll();
+			}
+		}
+
+		// 2. Physics - player bullets, invader bullets, ship (velocities preserved via body.moves)
+		var groups = [this.bullets, this.invadersBullets];
+		for (var gi = 0; gi < groups.length; gi++) {
+			if (groups[gi]) {
+				groups[gi].forEachAlive(function (b) {
+					if (b.body) {
+						b.body.moves = !freeze;
+					}
+				}, this);
+			}
+		}
+		if (this.ship && this.ship.body) {
+			this.ship.body.moves = !freeze;
+		}
+
+		// 3. Invader flap animation - true freeze-frame, resumes from same frame
+		if (this.invaders) {
+			this.invaders.forEachAlive(function (inv) {
+				if (inv.animations && inv.animations.currentAnim) {
+					inv.animations.currentAnim.paused = freeze;
+				}
+			}, this);
 		}
 	},
 
