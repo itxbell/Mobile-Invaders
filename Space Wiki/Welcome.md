@@ -30,10 +30,8 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: comprehensive game adjustments | [[22_Session_2026-09-01_Comprehensive_Game_Adjustments]] |
 | Pause & resume implementation guide | [[23_Pause_Resume_Guide]] |
 | Session: title screen fixes | [[24_Session_2026-09-15_TitleScreen_Fixes]] |
-| Session: scale down ship asset | [[18_Session_2026-09-01_Scale_Down_Ship]] |
-| Session: custom ship asset integration | [[19_Session_2026-09-01_Custom_Ship_Asset_Integration]] |
-| Session: fix background black space & scaling | [[20_Session_2026-09-01_Fix_Background_Black_Space]] |
-| Session: remove dock sprite | [[21_Session_2026-09-01_Remove_Dock_Sprite]] |
+| Session: pause/resume + EndScene fix | [[25_Session_2026-09-21_Pause_Resume_EndScene_Fix]] |
+| Session: pause freeze fix (tweens + physics + animations) | [[26_Session_2026-09-30_Pause_Freeze_Fix]] |
 
 ## Project Status
 
