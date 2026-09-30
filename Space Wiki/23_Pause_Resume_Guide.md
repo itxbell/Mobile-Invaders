@@ -6,13 +6,13 @@ Add a pause button (top-right corner) that freezes the game with a dimmed overla
 
 ## How It Works
 
-Phaser 3 has a built-in `this.game.paused` property. When set to `true`:
-- The `update()` loop stops running (ship, invaders, bullets, collisions all freeze)
-- Tweens are automatically paused
-- Sound is muted automatically
-- No `preUpdate`, `update`, or `postUpdate` callbacks fire
+**We do NOT use `this.game.paused`** — in this Phaser 2 version, setting `game.paused = true` freezes the entire input manager, making the RESUME button unclickable.
 
-This means we only need to add **UI elements** (button + overlay) and **guard the update loop** — Phaser handles the actual freeze.
+Instead, we use a custom `this.isPaused` flag:
+- The `update()` loop returns early when `isPaused` is true (gameplay freezes)
+- Phaser's input system keeps running (RESUME button stays clickable)
+- Music is paused/resumed explicitly via `this.music.pause()` / `this.music.resume()`
+- **Motion freeze is explicit via `setFreeze()`** (see §3b): `update()` guard alone does NOT stop tweens, physics bodies, or animations — see [[26_Session_2026-09-30_Pause_Freeze_Fix]]
 
 ## Files to Modify
 
@@ -46,26 +46,29 @@ After the `weaponText` block (after line 198), add the pause button:
 
 ```javascript
 // Pause button - top right corner
-this.pauseButton = this.add.bitmapText(0, 8, 'eightbitwonder', '||', 20);
-this.pauseButton.anchor.setTo(1, 0);
-this.pauseButton.position.x = this.world.width - 12;
+this.pauseButton = this.add.bitmapText(0, 8, 'eightbitwonder', 'I I', 22);
+this.pauseButton.position.x = this.world.width - 50;
 this.pauseButton.inputEnabled = true;
 this.pauseButton.events.onInputDown.add(this.togglePause, this);
-this.pauseButton.bringToTop();
 ```
 
-**Why this works**: `bitmapText` with the `'eightbitwonder'` font already loaded. `anchor.setTo(1, 0)` anchors top-right so the button sits at the corner. `inputEnabled = true` makes it tappable.
+**Why "I I"**: The `eightbitwonder` bitmap font only has a-z, A-Z, 0-9, and space. It does NOT have `|` pipe characters, so `||` renders invisible. "I I" (capital I + space + capital I) looks like a pause symbol and uses only characters the font supports.
+
+**Why no `anchor.setTo()`**: `BitmapText` in this Phaser 2 version doesn't have `anchor.setTo()` — it throws `TypeError`. Position is set directly via `position.x`.
+
+**Why no `bringToTop()`**: `BitmapText` doesn't have `bringToTop()` in this Phaser version — it throws `TypeError`.
 
 ### Step 3 — Three new methods (add after `updateWeaponUI` at line 325, before `restartGame`)
 
 ```javascript
 togglePause: function () {
     if (this.gameover) return;
-    this.game.paused = !this.game.paused;
-    if (this.game.paused) {
-        this.showPauseOverlay();
-    } else {
+    if (this.isPaused) {
         this.hidePauseOverlay();
+        this.isPaused = false;
+    } else {
+        this.isPaused = true;
+        this.showPauseOverlay();
     }
 },
 
@@ -75,7 +78,6 @@ showPauseOverlay: function () {
     this.pauseOverlay.beginFill(0x000000, 0.6);
     this.pauseOverlay.drawRect(0, 0, this.world.width, this.world.height);
     this.pauseOverlay.endFill();
-    this.pauseOverlay.fixedToCamera = true;
 
     // PAUSED text
     this.pauseText = this.add.bitmapText(0, 0, 'eightbitwonder', 'PAUSED', 28);
@@ -122,10 +124,10 @@ hidePauseOverlay: function () {
 **Key details**:
 - `graphics.drawRect()` draws a full-screen semi-transparent black rectangle
 - `fixedToCamera = true` ensures the overlay stays on screen
-- `this.music.pause()` / `this.music.resume()` handles audio explicitly (Phaser's `game.paused` mutes sound but doesn't always pause the audio context properly)
+- `this.music.pause()` / `this.music.resume()` handles audio explicitly
 - All overlay elements are stored as instance variables so `hidePauseOverlay()` can destroy them
 
-### Step 4 — Guard `update()` loop (`src/Game.js` line 351)
+### Step 4 — Guard `update()` loop (`src/Game.js` line 426)
 
 Change the first line of `update()` from:
 
@@ -139,21 +141,21 @@ To:
 
 ```javascript
 update: function () {
-    if (this.game.paused || this.gameover) return;
+    if (this.isPaused || this.gameover) return;
 
     //Ship handler
     this.ship.body.velocity.x = 0;
 ```
 
-**Why**: Even though Phaser freezes `update()` when `game.paused = true`, adding the guard prevents the ship from briefly moving if there's a frame delay. It also prevents touch input from being processed while paused.
+**Why `this.isPaused` not `this.game.paused`**: `game.paused = true` freezes the entire input manager in Phaser 2 — the RESUME button can never receive clicks. Using `this.isPaused` only freezes the gameplay logic while keeping input alive.
 
 ### Step 5 — Cleanup in `restartGame()` (`src/Game.js` line 327)
 
 Add at the very top of `restartGame()`, before the `this.music.stop()` line:
 
 ```javascript
-if (this.game.paused) {
-    this.game.paused = false;
+if (this.isPaused) {
+    this.isPaused = false;
     this.hidePauseOverlay();
 }
 ```
@@ -181,8 +183,8 @@ SpaceInvaders.GameLevel2.prototype.init = function(scoreFromLevel1){
 
 ```javascript
 SpaceInvaders.GameLevel2.prototype.restartGame = function(){
-    if(this.game.paused){                // <-- ADD THIS BLOCK
-        this.game.paused = false;
+    if(this.isPaused){                // <-- ADD THIS BLOCK
+        this.isPaused = false;
         this.hidePauseOverlay();
     }
     if(this.music){ this.music.stop(); }
@@ -213,8 +215,8 @@ SpaceInvaders.GameLevel3.prototype.init = function(scoreFromLevel2){
 
 ```javascript
 SpaceInvaders.GameLevel3.prototype.restartGame = function(){
-    if(this.game.paused){                // <-- ADD THIS BLOCK
-        this.game.paused = false;
+    if(this.isPaused){                // <-- ADD THIS BLOCK
+        this.isPaused = false;
         this.hidePauseOverlay();
     }
     if(this.music){ this.music.stop(); }
@@ -263,6 +265,7 @@ This means they **inherit** these methods from Game.js:
 - `togglePause()`
 - `showPauseOverlay()`
 - `hidePauseOverlay()`
+- `setFreeze()` (tweens + physics + flap freeze, 2026-09-30)
 - The guarded `update()` loop
 
 Only `init()` and `restartGame()` need changes because those are **overridden** in each level file.
@@ -271,15 +274,18 @@ Only `init()` and `restartGame()` need changes because those are **overridden** 
 
 ## Testing Checklist
 
-- [ ] Pause button appears top-right on Level 1
-- [ ] Pause button appears top-right on Level 2
-- [ ] Pause button appears top-right on Level 3
-- [ ] Tapping pause freezes ship, invaders, bullets, and collisions
-- [ ] Music mutes when paused
-- [ ] Music resumes when unpaused
-- [ ] "PAUSED" text displays centered on screen
-- [ ] "RESUME" button dismisses overlay and resumes game
-- [ ] Ship doesn't move via touch while paused
+- [x] Pause button appears top-right on Level 1
+- [x] Pause button appears top-right on Level 2
+- [x] Pause button appears top-right on Level 3
+- [x] Tapping pause freezes ship, invaders, bullets, and collisions
+- [x] Music mutes when paused
+- [x] Music resumes when unpaused
+- [x] "PAUSED" text displays centered on screen
+- [x] "RESUME" button dismisses overlay and resumes game
+- [x] Ship doesn't move via touch while paused
+- [x] Invader slide/drop tween freezes (`tweens.pauseAll/resumeAll`) — see [[26_Session_2026-09-30_Pause_Freeze_Fix]]
+- [x] Mid-air bullets + ship freeze (`body.moves=false/true`, velocities preserved — `Arcade.isPaused` doesn't exist in this build)
+- [x] Invader flap animation freeze-frames (`currentAnim.paused`, guarded `currentAnim` access)
 - [ ] Pausing during game over does nothing (button ignored)
 - [ ] Level transitions work correctly after unpausing
 - [ ] Game over after pausing works correctly (cleanup runs)
