@@ -32,6 +32,7 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: title screen fixes | [[24_Session_2026-09-15_TitleScreen_Fixes]] |
 | Session: pause/resume + EndScene fix | [[25_Session_2026-09-21_Pause_Resume_EndScene_Fix]] |
 | Session: pause freeze fix (tweens + physics + animations) | [[26_Session_2026-09-30_Pause_Freeze_Fix]] |
+| Session: responsive FIT + blended bars | [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]] |
 
 ## Project Status
 
