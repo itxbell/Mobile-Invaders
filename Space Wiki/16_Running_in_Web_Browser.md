@@ -1,5 +1,27 @@
 # Running the Game in Web Browser
 
+## Live Link (no server needed)
+
+**https://itxbell.github.io/Mobile-Invaders/**
+
+Deploys automatically on every push to `main` (`.github/workflows/deploy.yml` → build → Pages).
+See [[29_Session_2026-10-15_GitHub_Pages_Plain_Link]] for setup and troubleshooting.
+Needs internet on every visit (no offline support — no PWA by design).
+
+---
+
+## Testing on an Actual Phone (LAN)
+
+`localhost` on a phone means the phone itself — it never reaches your PC.
+Vite without `--host` also listens on localhost only. Use your LAN IP instead:
+
+```powershell
+npm run preview -- --host --port 4173
+# phone (same Wi-Fi as PC): http://192.168.1.115:4173
+```
+
+Or for dev with hot reload: `npm run dev -- --host` → phone opens `http://192.168.1.115:5173`.
+
 ## Quick Start
 
 ### 1. Start the Dev Server
