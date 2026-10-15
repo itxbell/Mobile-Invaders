@@ -29,6 +29,13 @@ SpaceInvaders.Boot.prototype = {
             window.visualViewport.addEventListener('resize', refit);
         }
 
+        // iOS ignores user-scalable=no — block pinch/double-tap zoom or the
+        // canvas ends up zoomed (= looks stretched/cropped, ship unreachable).
+        // { passive: false } is required for preventDefault to work.
+        document.addEventListener('gesturestart', function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener('gesturechange', function (e) { e.preventDefault(); }, { passive: false });
+        document.addEventListener('dblclick', function (e) { e.preventDefault(); }, { passive: false });
+
         this.state.start('Preloader');
     }
 };
