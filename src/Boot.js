@@ -11,7 +11,9 @@ SpaceInvaders.Boot.prototype = {
         this.input.maxPointers = 2;
         this.stage.disableVisibilityChange = true;
 
-        this.scale.scaleMode = Phaser.ScaleManager.FIT;
+        // NOTE: this Phaser build has no ScaleManager.FIT (undefined) — SHOW_ALL
+        // is the fit-inside-preserve-aspect mode. FIT silently broke scaling.
+        this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
         this.scale.pageAlignHorizontally = true;
         this.scale.pageAlignVertically = true;
 
