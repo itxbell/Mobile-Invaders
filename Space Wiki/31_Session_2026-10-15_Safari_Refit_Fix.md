@@ -55,6 +55,16 @@ Retest protocol: push → green → force-quit Safari → fresh load (not tab re
 
 Live already had FIT + refit + `?v=3`, yet iPhone showed slight stretch + cropped ship. Prime suspect: iOS ignores `user-scalable=no`, so a pinch/double-tap zoomed the page (Safari per-site zoom persists) — zoomed layout + `visualViewport.resize` refit = stretched, cropped canvas with the ship behind the toolbar. Fix in `Boot.js`: `gesturestart` / `gesturechange` / `dblclick` `preventDefault` (non-passive). Bumped script URLs `?v=3` → `?v=4` so the new `Boot.js` can't be served from cache. Decisive test: Safari **Private tab** (clean cache + default 100% zoom).
 
+## Follow-up 3 (ROOT CAUSE): `ScaleManager.FIT` does not exist — use `SHOW_ALL`
+
+Private-tab test still stretched/cropped top+bottom → genuine bug, not cache. Engine source proves it (`assets/libs/phaser.js`):
+
+- Only constants are `EXACT_FIT = 0`, `NO_SCALE = 1`, `SHOW_ALL = 2` (`phaser.js:18571-18583`). **No `FIT`.**
+- `setScreenSize` (`phaser.js:18912-18919`) branches only on `EXACT_FIT` / `SHOW_ALL` (+ fullscreen). `scaleMode = undefined` matches nothing → canvas CSS size never set → raw 540×960 backing store squeezed into the container = stretched + cropped, ship cut off.
+- Timeline fits: first playtest ran `EXACT_FIT` (full-bleed, looked okay); breakage started when the `FIT` push went live.
+- iPhone 13 (390×844) math with `SHOW_ALL`: mult = min(844/960, 390/540) = 0.722 → canvas 390×693, marginTop ≈ 75px. Ship (canvas-bottom − 70) visible. Flex container + Phaser margins compose correctly (auto margins absorb free space first — verified by spec, no double-centering).
+- Fix: `src/Boot.js` → `Phaser.ScaleManager.SHOW_ALL` (+ comment). Script URLs `?v=4` → `?v=5`. `06_Responsive Scaling.md` living-doc blocks corrected; old session logs left as history.
+
 ## Commands Reference
 
 ```powershell
