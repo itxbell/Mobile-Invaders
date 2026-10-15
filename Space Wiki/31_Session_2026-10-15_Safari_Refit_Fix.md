@@ -65,6 +65,18 @@ Private-tab test still stretched/cropped top+bottom → genuine bug, not cache. 
 - iPhone 13 (390×844) math with `SHOW_ALL`: mult = min(844/960, 390/540) = 0.722 → canvas 390×693, marginTop ≈ 75px. Ship (canvas-bottom − 70) visible. Flex container + Phaser margins compose correctly (auto margins absorb free space first — verified by spec, no double-centering).
 - Fix: `src/Boot.js` → `Phaser.ScaleManager.SHOW_ALL` (+ comment). Script URLs `?v=4` → `?v=5`. `06_Responsive Scaling.md` living-doc blocks corrected; old session logs left as history.
 
+## Follow-up 4: ?debug overlay (same day)
+
+User confirmed via fresh home-screen icon: icon art fine, game canvas cropped top+bottom. Server fully verified (run #7 green, SHOW_ALL + ?v=5 + dvh CSS all live), so remote numbers needed: `index.html` has a `?debug`-gated DOM overlay (invisible in normal play) reporting `innerWidth/innerHeight`, `visualViewport`, DPR, canvas CSS size + margins + backing-store size, container rect, UA every 500ms. Open `https://itxbell.github.io/Mobile-Invaders/?debug` and read the lines back. (Note: overlay was unpushed at first, so no numbers could show — push before testing.)
+
+## Follow-up 5: persistent per-site zoom (same day)
+
+User: Safari worked at first, cropped top+bottom "after a few more tries". That progression = state accumulating between visits. Prime suspect: an accidental pinch during touch play set Safari per-site Page Zoom above 100% (iOS ignores `user-scalable=no`; the zoom persists per site across reloads). A zoomed layout plus the refit logic = magnified canvas with edges cropped. Zoom guards prevent future pinches but can't reset existing zoom — fix on device: aA → Page Zoom → 100%. Debug overlay extended with `visualViewport.scale` + `outerWidth/innerWidth` zoom estimate to confirm remotely.
+
+## Follow-up 6 (RESOLVED): stale home-screen icon (same day)
+
+User: Safari tab renders correctly; home-screen icon still cropped. Conclusion: the icon was created before the `SHOW_ALL` push and its standalone storage runs the old broken scaler — Safari fixes (pushes, cache clears, Private tabs) never reach it. Fix is device-side only: delete icon → re-add from the working Safari page → launch. Rule going forward: **re-create the home-screen icon after every game-code push**, or you're playtesting the past.
+
 ## Commands Reference
 
 ```powershell
