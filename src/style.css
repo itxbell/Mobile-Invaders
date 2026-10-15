@@ -1,15 +1,30 @@
 #gameContainer {
   width: 100%;
-  height: 100vh;   /* full viewport height */
+  height: 100vh;   /* fallback */
+  height: 100dvh;  /* dynamic viewport: tracks Safari's toolbar */
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: #03001d;
+  overflow: hidden;
 }
 
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
 
 body {
   margin: 0;
   padding: 0;
+  position: fixed;   /* stop Safari scroll/bounce from shifting the canvas */
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100vh;   /* fallback */
+  height: 100dvh;  /* dynamic viewport: tracks Safari's toolbar */
   background-color: #03001d;
   touch-action: none;
   -webkit-user-select: none;
@@ -20,6 +35,7 @@ body {
 
 
 canvas {
-  display : block;   
+  display : block;
   margin : auto;
+  background-color: #03001d;
 }
