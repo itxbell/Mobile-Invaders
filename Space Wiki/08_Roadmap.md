@@ -73,7 +73,7 @@ See [[10_Capacitor_APK]] for the full step-by-step guide.
 ## Remaining TODOs
 
 - [x] Choose screen fitting strategy for 1080×2400 displays → switched to EXACT_FIT
-- [ ] Switch `EXACT_FIT` → `FIT` + blend bars `#03001d` (phones portrait only) — see [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]]
+- [x] Switch `EXACT_FIT` → `FIT` + blend bars `#03001d` (phones portrait only) — see [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]], implemented [[28_Session_2026-10-12_FIT_Blended_Bars_Implementation]]
 - [ ] Compress images for smaller APK size
 - [ ] Add splash screen and adaptive icon (Capacitor SplashScreen + Icon plugins)
 - [ ] Test on real Android phone
