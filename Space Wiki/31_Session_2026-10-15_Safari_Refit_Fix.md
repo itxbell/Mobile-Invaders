@@ -51,6 +51,10 @@ The refit fix was confirmed live (`Boot.js` fetched from Pages had it) yet iPhon
 
 Retest protocol: push → green → force-quit Safari → fresh load (not tab restore) → background → reopen.
 
+## Follow-up 2: zoom guards + ?v=4 (same day)
+
+Live already had FIT + refit + `?v=3`, yet iPhone showed slight stretch + cropped ship. Prime suspect: iOS ignores `user-scalable=no`, so a pinch/double-tap zoomed the page (Safari per-site zoom persists) — zoomed layout + `visualViewport.resize` refit = stretched, cropped canvas with the ship behind the toolbar. Fix in `Boot.js`: `gesturestart` / `gesturechange` / `dblclick` `preventDefault` (non-passive). Bumped script URLs `?v=3` → `?v=4` so the new `Boot.js` can't be served from cache. Decisive test: Safari **Private tab** (clean cache + default 100% zoom).
+
 ## Commands Reference
 
 ```powershell
