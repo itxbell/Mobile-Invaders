@@ -42,6 +42,15 @@ This push also moves live from `EXACT_FIT` → `FIT` + blended `#03001d` bars (t
 - `node --check src/Boot.js` OK; `npm run build` success; `dist/src/Boot.js` has listeners; `dist` CSS contains `100dvh` + `position:fixed`.
 - Phone test pending: fresh load → background Safari → reopen → rotate → toolbar show/hide; canvas must stay fitted, ship visible.
 
+## Follow-up: still broken → stale JS + bfcache (same day)
+
+The refit fix was confirmed live (`Boot.js` fetched from Pages had it) yet iPhone still misfit on reopen. Deeper causes found:
+
+1. **Stale game scripts.** `vite-plugin-static-copy` copies `src/*.js` verbatim — no content hash, unlike bundled assets. Safari kept running the old cached `Boot.js`. Fix: `?v=3` query on all `<script>`/`<link>` URLs in `index.html` (bump on future JS/CSS changes).
+2. **bfcache restore runs no `resize`.** Reopened Safari tabs restore from memory; only `pageshow` fires. Fix: `window.addEventListener('pageshow', refit)` in `Boot.js`.
+
+Retest protocol: push → green → force-quit Safari → fresh load (not tab restore) → background → reopen.
+
 ## Commands Reference
 
 ```powershell
