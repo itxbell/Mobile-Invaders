@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "26_Session_2026-09-30_Pause_Freeze_Fix.md",
+                "file": "28_Session_2026-10-12_FIT_Blended_Bars_Implementation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "26_Session_2026-09-30_Pause_Freeze_Fix"
+              "title": "28_Session_2026-10-12_FIT_Blended_Bars_Implementation"
             }
           }
         ]
@@ -187,14 +187,26 @@
   },
   "active": "1cb058e024421d5e",
   "lastOpenFiles": [
-    "23_Pause_Resume_Guide.md",
-    "25_Session_2026-09-21_Pause_Resume_EndScene_Fix.md",
+    "27_Session_2026-10-09_Responsive_FIT_Blended_Bars.md",
+    "28_Session_2026-10-12_FIT_Blended_Bars_Implementation.md",
+    "02_Architecture.md",
     "03_Mobile Strategy.md",
+    "04_Game Design.md",
+    "23_Pause_Resume_Guide.md",
+    "22_Session_2026-09-01_Comprehensive_Game_Adjustments.md",
+    "21_Session_2026-09-01_Remove_Dock_Sprite.md",
+    "20_Session_2026-09-01_Fix_Background_Black_Space.md",
+    "19_Session_2026-09-01_Custom_Ship_Asset_Integration.md",
+    "18_Session_2026-09-01_Scale_Down_Ship.md",
+    "17_Session_2026-09-01_Ship_Asset_Investigation.md",
+    "16_Running_in_Web_Browser.md",
+    "15_Session_2026-09-01_Replace_Ship_Assets.md",
+    "14_Session_2026-08-13_HUD_StateText_Fit.md",
+    "26_Session_2026-09-30_Pause_Freeze_Fix.md",
+    "25_Session_2026-09-21_Pause_Resume_EndScene_Fix.md",
     "Welcome.md",
     "Untitled",
-    "02_Architecture.md",
     "01_Project Overview.md",
-    "04_Game Design.md",
     "05_Touch Controls.md",
     "07_Performance.md",
     "08_Roadmap — Phase 6.md",
@@ -202,7 +214,6 @@
     "08_Roadmap.md",
     "06_Responsive Scaling.md",
     "11_Session_2026-07-28_Portrait_Capacitor.md",
-    "10_Capacitor_APK.md",
     "Untitled.canvas",
     "Untitled 1"
   ]
