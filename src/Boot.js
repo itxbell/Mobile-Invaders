@@ -23,6 +23,8 @@ SpaceInvaders.Boot.prototype = {
         var refit = function () { scale.refresh(); };
         window.addEventListener('resize', refit);
         window.addEventListener('orientationchange', refit);
+        // bfcache restore (Safari reopen) runs no resize — refit explicitly.
+        window.addEventListener('pageshow', refit);
         if (window.visualViewport) {
             window.visualViewport.addEventListener('resize', refit);
         }
