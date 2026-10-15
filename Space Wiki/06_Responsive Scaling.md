@@ -8,15 +8,15 @@
 var game = new Phaser.Game(540, 960, Phaser.AUTO, 'gameContainer');
 ```
 
-**Scale Mode:** `Phaser.ScaleManager.EXACT_FIT` in Boot.js (current) → **decision 2026-10-09: switch to `FIT` + blended bars**, see [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]]
+**Scale Mode:** `Phaser.ScaleManager.FIT` in Boot.js (current, implemented 2026-10-12) — see [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]], [[28_Session_2026-10-12_FIT_Blended_Bars_Implementation]]
 
 ```javascript
-this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+this.scale.scaleMode = Phaser.ScaleManager.FIT;
 this.scale.pageAlignHorizontally = true;
 this.scale.pageAlignVertically = true;
 ```
 
-EXACT_FIT scales the game to fill the entire viewport, eliminating black bars on tall 9:20+ screens. On 9:16 screens there is no stretch; on 9:20 screens there is ~12% vertical stretch which is imperceptible for pixel art.
+FIT preserves the 9:16 aspect on all screens. On 9:16 screens there are no bars; on 9:20 screens (1080×2400) there are thin top/bottom bars blended to `#03001d` (stage + CSS `body`/`#gameContainer`/`canvas` + Android `windowBackground` + `viewport-fit=cover`). Previously `EXACT_FIT` filled all space but caused ~12% vertical stretch on 9:20.
 
 ## Portrait Layout Details
 
