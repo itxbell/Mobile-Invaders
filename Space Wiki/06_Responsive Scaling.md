@@ -8,15 +8,15 @@
 var game = new Phaser.Game(540, 960, Phaser.AUTO, 'gameContainer');
 ```
 
-**Scale Mode:** `Phaser.ScaleManager.FIT` in Boot.js (current, implemented 2026-10-12) — see [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]], [[28_Session_2026-10-12_FIT_Blended_Bars_Implementation]]
+**Scale Mode:** `Phaser.ScaleManager.SHOW_ALL` in Boot.js — the fit-inside-preserve-aspect mode. (⚠️ This Phaser build has **no** `ScaleManager.FIT` — it evaluates to `undefined`, matches no branch in `setScreenSize`, and breaks scaling. Older wiki pages saying `FIT` mean `SHOW_ALL`; see [[31_Session_2026-10-15_Safari_Refit_Fix]].)
 
 ```javascript
-this.scale.scaleMode = Phaser.ScaleManager.FIT;
+this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 this.scale.pageAlignHorizontally = true;
 this.scale.pageAlignVertically = true;
 ```
 
-FIT preserves the 9:16 aspect on all screens. On 9:16 screens there are no bars; on 9:20 screens (1080×2400) there are thin top/bottom bars blended to `#03001d` (stage + CSS `body`/`#gameContainer`/`canvas` + Android `windowBackground` + `viewport-fit=cover`). Previously `EXACT_FIT` filled all space but caused ~12% vertical stretch on 9:20.
+SHOW_ALL preserves the 9:16 aspect on all screens. On 9:16 screens there are no bars; on 9:20 screens (1080×2400) there are thin top/bottom bars blended to `#03001d` (stage + CSS `body`/`#gameContainer`/`canvas` + Android `windowBackground` + `viewport-fit=cover`). Previously `EXACT_FIT` filled all space but caused ~12% vertical stretch on 9:20.
 
 ## Portrait Layout Details
 
@@ -73,7 +73,7 @@ Grid fills top ~40% of the 540×960 canvas.
 
 ### Phase 1: Fix Aspect Ratio (Quick Win)
 
-**Change:** `EXACT_FIT` → `FIT`
+**Change:** `EXACT_FIT` → `SHOW_ALL` (this build has no `FIT` constant — `FIT` is `undefined` and breaks scaling)
 
 **File:** `src/Boot.js:11`
 
@@ -82,7 +82,7 @@ Grid fills top ~40% of the 540×960 canvas.
 this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
 
 // After:
-this.scale.scaleMode = Phaser.ScaleManager.FIT;
+this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
 ```
 
 **What this does:**
