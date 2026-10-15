@@ -2,28 +2,30 @@
 <html>
 <head>
 	<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover, interactive-widget=resizes-content">
 	<title>Space Invaders x Aquatic Pests</title>
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%2303001d'/%3E%3Ccircle cx='8' cy='7' r='4' fill='%23f5c518'/%3E%3Ccircle cx='8' cy='7' r='2' fill='%231e90ff'/%3E%3Crect x='6' y='11' width='4' height='3' fill='%23ff7f11'/%3E%3C/svg%3E">
     <meta name="theme-color" content="#03001d">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Didymo Invaders">
     <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
-    <link rel="stylesheet" type="text/css" href="src/style.css?v=5">
-    <script src="assets/libs/phaser.js?v=5"></script>
-    <script src="src/Boot.js?v=5"></script>
-    <script src="src/Preloader.js?v=5"></script>
-    <script src="src/StartMenu.js?v=5"></script>
-    <script src="src/Game.js?v=5"></script>
-    <script src="src/GameLevel2.js?v=5"></script>
-    <script src="src/GameLevel3.js?v=5"></script>
-    <script src="src/FactCards.js?v=5"></script>
-    <script src="src/EndScene.js?v=5"></script>
+    <link rel="stylesheet" type="text/css" href="src/style.css?v=6">
+    <script src="assets/libs/phaser.js?v=6"></script>
+    <script src="src/Boot.js?v=6"></script>
+    <script src="src/Preloader.js?v=6"></script>
+    <script src="src/StartMenu.js?v=6"></script>
+    <script src="src/Game.js?v=6"></script>
+    <script src="src/GameLevel2.js?v=6"></script>
+    <script src="src/GameLevel3.js?v=6"></script>
+    <script src="src/FactCards.js?v=6"></script>
+    <script src="src/EndScene.js?v=6"></script>
 
 </head>
 <body>
     <div id="gameContainer"></div>
+    <div id="rotateHint" style="display:none;position:fixed;top:0;left:0;right:0;z-index:9998;text-align:center;pointer-events:none;font-family:monospace;font-size:13px;color:#fff;background:rgba(3,0,29,0.85);padding:6px 0;">Rotate your device for the full portrait view</div>
     <script type="text/javascript">
         window.onload = function() {
             var game = new Phaser.Game(540, 960, Phaser.AUTO, 'gameContainer');
@@ -40,6 +42,30 @@
             game.state.start('Boot');
             
         }
+    </script>
+    <script>
+    // ?debug overlay: shows viewport + canvas metrics for remote diagnosis.
+    // Invisible during normal play. Open https://itxbell.github.io/Mobile-Invaders/?debug
+    if (location.search.indexOf('debug') !== -1) {
+        var dbg = document.createElement('div');
+        dbg.style.cssText = 'position:fixed;left:0;top:0;z-index:9999;background:rgba(0,0,0,0.85);color:#0f0;font:11px monospace;padding:8px;white-space:pre-wrap;pointer-events:none;max-width:100vw;';
+        document.body.appendChild(dbg);
+        setInterval(function () {
+            var c = document.querySelector('canvas');
+            var vv = window.visualViewport;
+            var g = document.getElementById('gameContainer').getBoundingClientRect();
+            dbg.textContent =
+                'inner ' + window.innerWidth + 'x' + window.innerHeight +
+                ' | vv ' + (vv ? Math.round(vv.width) + 'x' + Math.round(vv.height) + ' scale ' + vv.scale : 'n/a') +
+                ' | pagezoom~' + Math.round((window.outerWidth / window.innerWidth) * 100) + '%' +
+                ' | dpr ' + window.devicePixelRatio +
+                '\ncanvas css [' + (c ? c.style.width + ' x ' + c.style.height : 'none') + ']' +
+                ' mt[' + (c ? c.style.marginTop : '-') + '] ml[' + (c ? c.style.marginLeft : '-') + ']' +
+                ' attr ' + (c ? c.width + 'x' + c.height : '-') +
+                '\ncontainer ' + Math.round(g.width) + 'x' + Math.round(g.height) + ' top ' + Math.round(g.top) +
+                '\nua ' + navigator.userAgent;
+        }, 500);
+    }
     </script>
 </body>
 </html>
