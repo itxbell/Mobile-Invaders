@@ -33,13 +33,18 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: pause/resume + EndScene fix | [[25_Session_2026-09-21_Pause_Resume_EndScene_Fix]] |
 | Session: pause freeze fix (tweens + physics + animations) | [[26_Session_2026-09-30_Pause_Freeze_Fix]] |
 | Session: responsive FIT + blended bars | [[27_Session_2026-10-09_Responsive_FIT_Blended_Bars]] |
+| Session: FIT blended bars implementation | [[28_Session_2026-10-12_FIT_Blended_Bars_Implementation]] |
+| Session: GitHub Pages plain-link deploy | [[29_Session_2026-10-15_GitHub_Pages_Plain_Link]] |
+| Session: iOS home-screen icon | [[30_Session_2026-10-15_iOS_Home_Screen_Icon]] |
+| Session: Safari reopen refit fix | [[31_Session_2026-10-15_Safari_Refit_Fix]] |
 
 ## Project Status
 
 - **Engine**: Phaser 3.90.0 (State Manager)
 - **Build tool**: Vite 7
-- **Platform**: Web → PWA (targeting Android & iOS)
-- **Current phase**: Documentation & PWA setup
+- **Platform**: Web (live link) + Capacitor APK (targeting Android)
+- **Live link**: https://itxbell.github.io/Mobile-Invaders/
+- **Current phase**: Phone testing via live link
 
 ## Repos
 
