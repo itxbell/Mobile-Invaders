@@ -22,7 +22,15 @@ SpaceInvaders.Boot.prototype = {
         // Re-fit the canvas when Safari's toolbar shows/hides (e.g. reopening
         // the tab) — otherwise the canvas keeps the old size and looks cropped.
         var scale = this.scale;
-        var refit = function () { scale.refresh(); };
+        var refit = function () {
+            scale.refresh();
+            // Portrait game on a short landscape screen: suggest rotating.
+            var hint = document.getElementById('rotateHint');
+            if (hint) {
+                hint.style.display =
+                    (window.innerWidth > window.innerHeight && window.innerHeight < 500) ? 'block' : 'none';
+            }
+        };
         window.addEventListener('resize', refit);
         window.addEventListener('orientationchange', refit);
         // bfcache restore (Safari reopen) runs no resize — refit explicitly.
@@ -38,6 +46,7 @@ SpaceInvaders.Boot.prototype = {
         document.addEventListener('gesturechange', function (e) { e.preventDefault(); }, { passive: false });
         document.addEventListener('dblclick', function (e) { e.preventDefault(); }, { passive: false });
 
+        refit(); // set initial canvas size + hint state for this viewport
         this.state.start('Preloader');
     }
 };
