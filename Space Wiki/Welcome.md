@@ -38,6 +38,8 @@ Welcome to the development wiki for the **Space Invaders × Aquatic Pests** game
 | Session: iOS home-screen icon | [[30_Session_2026-10-15_iOS_Home_Screen_Icon]] |
 | Session: Safari reopen refit fix | [[31_Session_2026-10-15_Safari_Refit_Fix]] |
 | Session: tablet/phone/desktop pass | [[32_Session_2026-10-15_Tablet_Phone_Desktop]] |
+| Session: Android APK native app | [[33_Session_2026-10-15_Android_APK_Native_App]] |
+| Session: Play Store distribution (sideload vs Play) | [[34_Session_2026-10-15_Play_Store_Distribution]] |
 
 ## Project Status
 
