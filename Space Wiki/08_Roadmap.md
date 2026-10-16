@@ -67,7 +67,9 @@ See [[10_Capacitor_APK]] for the full step-by-step guide.
 
 ## Phase 7: Distribution
 
-- [ ] Submit Android APK to Google Play
+- [ ] Android Play: signed release `.aab` (debug APK rejected — need own keystore) — see [[34_Session_2026-10-15_Play_Store_Distribution]]
+- [ ] Android Play: Developer account ($25 one-time + ID verification)
+- [ ] Android Play: listing (icon, screenshots, description, content rating, privacy-policy URL) → internal test track first
 - [ ] Submit iOS IPA to App Store (requires Apple Developer account)
 
 ## Remaining TODOs
